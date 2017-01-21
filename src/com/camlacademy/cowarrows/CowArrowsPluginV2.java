@@ -15,13 +15,24 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class CowArrowsPlugin extends JavaPlugin implements Listener{
+public class CowArrowsPluginV2 extends JavaPlugin implements Listener{
 
+	public static final String CONFIG_KEY_ALLOW_COW_ARROW_RECIPE = "allowCowArrowsRecipe";
+		
 	@Override
 	public void onEnable() {
 		super.onEnable();
 		getServer().getPluginManager().registerEvents(this, this);
+	
+		getConfig().options().copyDefaults(true);
+		getConfig().addDefault(CONFIG_KEY_ALLOW_COW_ARROW_RECIPE, true);
+		saveConfig();
+		
+		registerRecipes();
 	}
+	
+	private
+	
 	
 	
 
