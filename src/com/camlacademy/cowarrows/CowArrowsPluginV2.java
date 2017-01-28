@@ -1,6 +1,7 @@
 package com.camlacademy.cowarrows;
 
 import org.bukkit.Material;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -12,10 +13,11 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class CowArrowsPluginV2 extends JavaPlugin implements Listener{
+public class CowArrowsPluginV2 extends JavaPlugin implements Listener, CommandExecutor{
 
 	public static final String CONFIG_KEY_ALLOW_COW_ARROW_RECIPE = "allowCowArrowsRecipe";
 		
@@ -31,7 +33,30 @@ public class CowArrowsPluginV2 extends JavaPlugin implements Listener{
 		registerRecipes();
 	}
 	
-	private
+	private void registerRecipes() {
+		boolean allowCowArrowRecipe = getConfig().getBoolean(CONFIG_KEY_ALLOW_COW_ARROW_RECIPE);
+		
+		if (allowCowArrowRecipe) {
+			getLogger().info(CONFIG_KEY_ALLOW_COW_ARROW_RECIPE + ": true");
+			
+			ItemStack itemStack = new ItemStack(Material.ARROW);
+			ItemMeta itemMeta = itemStack.getItemMeta();
+			itemMeta.setDisplayName("Cow Arrow");
+			itemStack.setItemMeta(itemMeta);
+			
+			ShapedRecipe recipe = new ShapedRecipe(itemStack);
+			recipe.shape(" B ", " A ", " L ");
+			
+			recipe.setIngredient('L', Material.LEATHER);
+			recipe.setIngredient('A', Material.ARROW);
+			recipe.setIngredient('B', Material.RAW_BEEF);
+			
+			getServer().addRecipe(recipe);
+			
+		} else {
+			getLogger().info(CONFIG_KEY_ALLOW_COW_ARROW_RECIPE + ": false");
+		}
+	}
 	
 	
 	
